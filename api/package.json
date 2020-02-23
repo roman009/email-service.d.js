@@ -1,0 +1,34 @@
+{
+  "name": "email-service.d.api",
+  "version": "1.0.0",
+  "description": "email service api",
+  "main": "server.js",
+  "dependencies": {
+    "@google-cloud/functions-framework": "^1.4.0",
+    "@google-cloud/pubsub": "^1.5.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "joi": "^14.3.1",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2",
+    "sinon-chai": "^3.5.0",
+    "standard": "^14.3.1"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "mocha test/*/",
+    "cs-fix": "standard --fix"
+  },
+  "keywords": [
+    "email",
+    "service",
+    "google",
+    "cloud",
+    "storage",
+    "functions"
+  ],
+  "author": "Valeriu",
+  "license": "ISC"
+}
