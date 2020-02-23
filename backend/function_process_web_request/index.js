@@ -55,8 +55,8 @@ exports.uniqueEmails = (emailList) => {
 
 exports.blockedEmails = async (emailList) => {
   for (const key in emailList) {
-    const email = await db.collection('blocked_emails').doc(emailList[key]).get()
-    if (email.exists) {
+    const emailCheck = await db.collection('blocked_emails').doc(emailList[key]).get()
+    if (emailCheck.exists) {
       delete emailList[key]
     }
   }

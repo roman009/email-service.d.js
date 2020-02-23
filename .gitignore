@@ -2,6 +2,7 @@ README_local.md
 api/node_modules
 backend/function_process_email_request/node_modules
 backend/function_process_web_request/node_modules
+backend/function_process_check_request/node_modules
 coding-challenge.pdf
 key.json
 .idea

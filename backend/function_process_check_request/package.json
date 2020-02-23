@@ -4,6 +4,7 @@
   "description": "email service function_process_check_request",
   "main": "index.js",
   "dependencies": {
+    "@google-cloud/firestore": "^3.5.1",
     "@google-cloud/functions-framework": "^1.4.0",
     "@google-cloud/pubsub": "^1.5.0",
     "@sendgrid/client": "^6.5.3",
