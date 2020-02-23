@@ -5,6 +5,7 @@ const sinon = require('sinon')
 const sinonChai = require('sinon-chai')
 const chaiHttp = require('chai-http')
 const server = require('../../server')
+const mailController = require('../../controller/mail_controller')
 
 chai.use(chaiHttp)
 
@@ -42,12 +43,18 @@ describe('api server', () => {
       subject: 'this is the subject',
       body: 'this is the body'
     }
+
+    const pubSubClientStub = sinon.stub(mailController.pubSubClient, 'topic')
+
     chai.request(server.app)
       .post('/api/mail/send')
       .set('X-TOKEN', process.env.AUTH_TOKEN || 'some-token')
       .send(data)
       .end((err, res) => {
         expect(res.status).to.be.equal(200)
+        expect(pubSubClientStub).to.have.been.callCount(1)
       })
+
+    pubSubClientStub.restore()
   })
 })
