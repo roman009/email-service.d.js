@@ -50,5 +50,6 @@ exports.processResponse = async ([response, body]) => {
       console.log('Email address added to block list!')
     }
   }
+
   return true
 }

@@ -27,5 +27,6 @@ describe('processCheckRequest', () => {
     expect(consoleLogSpy.calledWith('Received checkRequest!')).to.be.true
 
     sgClientStub.restore()
+    processResponseStub.restore()
   })
 })

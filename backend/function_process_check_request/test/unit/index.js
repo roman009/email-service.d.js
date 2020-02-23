@@ -13,15 +13,10 @@ describe('processResponse', () => {
     consoleLogSpy.restore()
   })
 
-  it('should do nothing if body is undefined or empty', async (done) => {
-    try {
-      const ret = await googleFunction.processResponse([{}, {}])
-      expect(ret).to.be.false
-      expect(consoleLogSpy.called).to.be.false
-      done()
-    } catch (e) {
-      done(e)
-    }
+  it('should do nothing if body is undefined or empty', async () => {
+    const ret = await googleFunction.processResponse([{}, {}])
+    expect(consoleLogSpy.called).to.be.false
+    expect(ret).to.be.false
   })
 
   it('should add the email address to the blocked list if it is not there', async () => {
