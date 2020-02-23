@@ -1,6 +1,6 @@
 const AUTH_TOKEN = process.env.AUTH_TOKEN || 'some-token'
 
-exports.auth = (req, res, next) => {
+const auth = (req, res, next) => {
   try {
     const token = req.header('X-TOKEN')
     if (token === undefined || token !== AUTH_TOKEN) {
@@ -13,3 +13,5 @@ exports.auth = (req, res, next) => {
     })
   }
 }
+
+module.exports = auth

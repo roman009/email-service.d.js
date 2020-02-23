@@ -32,9 +32,16 @@ describe('processWebRequest', () => {
     data: Buffer.from(JSON.stringify(data)).toString('base64')
   }
 
-  it('should create correct list of recipients and send 2 pubsub messages', async () => {
-    const consoleLogSpy = sinon.spy(console, 'log')
+  let consoleLogSpy, sandbox
+  before(() => {
+    sandbox = sinon.createSandbox()
+    consoleLogSpy = sinon.spy(console, 'log')
+  })
+  after(() => {
+    consoleLogSpy.restore()
+  })
 
+  it('should create correct list of recipients and send 2 pubsub messages', async () => {
     const collectionStub = sinon.stub(googleFunction.db, 'collection')
     const doc = {}
     doc.doc = (email) => {
@@ -81,5 +88,6 @@ describe('processWebRequest', () => {
     expect(consoleLogSpy.calledWith('Received webRequest!')).to.be.true
     expect(consoleLogSpy.calledWith('Processed webRequest!')).to.be.true
     expect(consoleLogSpy.calledWith('Message 111 published.')).to.be.true
+    collectionStub.restore()
   })
 })

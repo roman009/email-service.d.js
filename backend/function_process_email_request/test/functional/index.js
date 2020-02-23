@@ -20,8 +20,16 @@ describe('processEmailRequest', () => {
     data: Buffer.from(JSON.stringify(data)).toString('base64')
   }
 
+  let consoleLogSpy, sandbox
+  before(() => {
+    sandbox = sinon.createSandbox()
+    consoleLogSpy = sinon.spy(console, 'log')
+  })
+  after(() => {
+    consoleLogSpy.restore()
+  })
+
   it('should call the sengrid API to send one email with success', async () => {
-    const consoleLogSpy = sinon.spy(console, 'log')
     const sgMailStub = sinon.stub(googleFunction.sgMail, 'send').resolves(1)
 
     const email = {
@@ -38,19 +46,16 @@ describe('processEmailRequest', () => {
     expect(sgMailStub).to.have.been.calledOnceWith(email)
     expect(consoleLogSpy.calledWith('Received emailRequest!')).to.be.true
     expect(consoleLogSpy.calledWith('Email sent!')).to.be.true
-    consoleLogSpy.restore()
     sgMailStub.restore()
   })
 
   it('should call the sengrid API to send one email with error', async () => {
-    const consoleLogSpy = sinon.spy(console, 'log')
     const sgMailStub = sinon.stub(googleFunction.sgMail, 'send').rejects('Error')
 
     await googleFunction.processEmailRequest(pubSubEvent, {})
 
     expect(consoleLogSpy.calledWith('Received emailRequest!')).to.be.true
     expect(consoleLogSpy.calledWith('Email not sent!')).to.be.true
-    consoleLogSpy.restore()
     sgMailStub.restore()
   })
 })

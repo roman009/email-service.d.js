@@ -3,6 +3,7 @@ const Firestore = require('@google-cloud/firestore')
 
 const db = new Firestore({ projectId: process.env.GOOGLE_PROJECT_ID || 'email-service-d' })
 sgClient.setApiKey(process.env.SENDGRID_API_KEY)
+
 exports.sgClient = sgClient
 exports.db = db
 
@@ -36,7 +37,7 @@ exports.processCheckRequest = async (pubSubEvent, context) => {
 
 exports.processResponse = async ([response, body]) => {
   if (response.body === undefined || response.body === '') {
-    return
+    return false
   }
   const emailList = response.body
   for (const emailListItem of emailList) {
@@ -49,4 +50,5 @@ exports.processResponse = async ([response, body]) => {
       console.log('Email address added to block list!')
     }
   }
+  return true
 }

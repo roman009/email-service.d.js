@@ -15,3 +15,5 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use('/api/mail', mailRouter)
 
 app.listen(PORT, () => { console.log(`App running on port ${PORT}`) })
+
+exports.app = app

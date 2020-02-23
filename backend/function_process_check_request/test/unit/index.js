@@ -4,15 +4,27 @@ const sinon = require('sinon')
 const googleFunction = require('../../index')
 
 describe('processResponse', () => {
-  it('should do nothing if body is undefined or empty', async () => {
-    const consoleLogSpy = sinon.spy(console, 'log')
-    await googleFunction.processResponse([{}, {}])
-    expect(consoleLogSpy.called).to.be.false
+  let consoleLogSpy, sandbox
+  before(() => {
+    sandbox = sinon.createSandbox()
+    consoleLogSpy = sinon.spy(console, 'log')
+  })
+  after(() => {
     consoleLogSpy.restore()
   })
 
+  it('should do nothing if body is undefined or empty', async (done) => {
+    try {
+      const ret = await googleFunction.processResponse([{}, {}])
+      expect(ret).to.be.false
+      expect(consoleLogSpy.called).to.be.false
+      done()
+    } catch (e) {
+      done(e)
+    }
+  })
+
   it('should add the email address to the blocked list if it is not there', async () => {
-    const consoleLogSpy = sinon.spy(console, 'log')
     const collectionStub = sinon.stub(googleFunction.db, 'collection')
     const doc = {}
     const newDoc = {}
@@ -23,7 +35,7 @@ describe('processResponse', () => {
       return subObj
     }
     newDoc.set = (data) => {}
-    let newDocStub = sinon.stub(newDoc, 'set')
+    const newDocStub = sinon.stub(newDoc, 'set')
     doc.doc = (email) => {
       if (['testemail1@test.com'].includes(email)) {
         return newDoc
@@ -54,12 +66,13 @@ describe('processResponse', () => {
         status: '5.1.1'
       }
     ]
-    await googleFunction.processResponse([response, {}])
 
+    const ret = await googleFunction.processResponse([response, {}])
+
+    expect(ret).to.be.true
     expect(newDocStub.called).to.be.true
     expect(consoleLogSpy.calledWith('Email address added to block list!')).to.be.true
 
-    consoleLogSpy.restore()
     collectionStub.restore()
   })
 })

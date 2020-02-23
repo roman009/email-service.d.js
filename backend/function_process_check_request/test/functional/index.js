@@ -7,8 +7,16 @@ chai.use(sinonChai)
 const googleFunction = require('../../index')
 
 describe('processCheckRequest', () => {
+  let consoleLogSpy, sandbox
+  before(() => {
+    sandbox = sinon.createSandbox()
+    consoleLogSpy = sinon.spy(console, 'log')
+  })
+  after(() => {
+    consoleLogSpy.restore()
+  })
+
   it('should check the sengrid API for blocked emails and save them to the store if they are not present', async () => {
-    const consoleLogSpy = sinon.spy(console, 'log')
     const sgClientStub = sinon.stub(googleFunction.sgClient, 'request').resolves(true)
     const processResponseStub = sinon.stub(googleFunction, 'processResponse')
 
@@ -18,7 +26,6 @@ describe('processCheckRequest', () => {
     expect(processResponseStub).to.have.been.callCount(4)
     expect(consoleLogSpy.calledWith('Received checkRequest!')).to.be.true
 
-    consoleLogSpy.restore()
     sgClientStub.restore()
   })
 })

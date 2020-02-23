@@ -41,5 +41,6 @@ describe('blockedEmails', () => {
     const expectedResult = ['a@a.com', 'b@a.com', 'c@a.com']
     const result = await googleFunction.blockedEmails(emails)
     expect(result).to.eql(expectedResult)
+    collectionStub.restore()
   })
 })
