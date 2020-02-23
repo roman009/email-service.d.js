@@ -11,3 +11,16 @@ steps:
   - name: 'gcr.io/cloud-builders/npm'
     dir: 'backend/function_process_web_request'
     args: ['install']
+
+  - name: 'gcr.io/cloud-builders/npm'
+    dir: 'api/'
+    args: ['test']
+  - name: 'gcr.io/cloud-builders/npm'
+    dir: 'backend/function_process_check_request'
+    args: ['test']
+  - name: 'gcr.io/cloud-builders/npm'
+    dir: 'backend/function_process_email_request'
+    args: ['test']
+  - name: 'gcr.io/cloud-builders/npm'
+    dir: 'backend/function_process_web_request'
+    args: ['test']
