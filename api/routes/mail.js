@@ -4,6 +4,6 @@ const auth = require('../middleware/auth')
 
 const mailController = require('../controller/mail_controller')
 
-router.post('/send', auth, mailController.send)
+router.post('/send', auth.middleware, mailController.send)
 
-module.exports = router
+exports.router = router

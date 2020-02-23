@@ -89,5 +89,7 @@ describe('processWebRequest', () => {
     expect(consoleLogSpy.calledWith('Processed webRequest!')).to.be.true
     expect(consoleLogSpy.calledWith('Message 111 published.')).to.be.true
     collectionStub.restore()
+    pubSubClientStub.restore()
+    topicStub.restore()
   })
 })

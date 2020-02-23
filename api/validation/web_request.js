@@ -9,4 +9,4 @@ const schema = Joi.object().keys({
   body: Joi.string().required()
 })
 
-module.exports = schema
+exports.schema = schema
