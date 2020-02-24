@@ -13,6 +13,8 @@ The project runs on the Google Cloud Platform with the help of the following pro
 - Storage
 - Cloud Build
 
+The code is Javascript running in node.js versions 13 (API) and 10 (Google Function limitation)
+
 It consists of 2 major parts: the API and the backend. 
 
 ### API
