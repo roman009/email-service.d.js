@@ -4,15 +4,15 @@ steps:
     entrypoint: npm
     dir: 'api/'
     args: ['install']
-  - name: node:13
+  - name: node:10
     entrypoint: npm
     dir: 'backend/function_process_check_request/'
     args: ['install']
-  - name: node:13
+  - name: node:10
     entrypoint: npm
     dir: 'backend/function_process_email_request/'
     args: ['install']
-  - name: node:13
+  - name: node:10
     entrypoint: npm
     dir: 'backend/function_process_web_request/'
     args: ['install']
