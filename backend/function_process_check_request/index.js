@@ -37,6 +37,7 @@ exports.processCheckRequest = async (pubSubEvent, context) => {
 }
 
 exports.processResponse = async ([response, body]) => {
+  console.log('Response body: ' + response.body)
   if (response.body === undefined || response.body === '') {
     return false
   }

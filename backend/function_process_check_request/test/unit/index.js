@@ -15,7 +15,6 @@ describe('processResponse', () => {
 
   it('should do nothing if body is undefined or empty', async () => {
     const ret = await googleFunction.processResponse([{}, {}])
-    expect(consoleLogSpy.called).to.be.false
     expect(ret).to.be.false
   })
 
