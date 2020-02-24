@@ -82,8 +82,10 @@ The tests include unit, functional and integration tests for the projects. Not a
 
 The deployment pipeline is triggered after a push to `master` in the github project. Google Cloud Build is triggered via a Webhook and runs the pipeline defined in `cloudbuild.yaml` (install, test, deploy).
 
-Production credentials are stored in a private bucket in the Storage service in an `.env` file. After the `install` phase of the deployment, the `.env` file is copied locally to the mini-projects directories.  
+Production credentials are stored in a private bucket in the Storage service in an `.env` file. After the `install` phase of the deployment, the `.env` file is copied from the bucket locally, to the mini-projects directories.  
 
 ## TODO (possible)  
 
 - convert to Typescript
+- cleanup .env files and implement the Secret Manager product from Google Cloud
+- convert implementation to a Kubernetes cluster to abstract the cloud provider
