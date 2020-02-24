@@ -63,7 +63,7 @@ steps:
       - function_process_check_request
       - --source=.
       - --trigger-topic=topic-check-sendgrid-requests
-      - --runtime=node13
+      - --runtime=nodejs10
       - --entry-point=processCheckRequest
       - --verbosity=debug
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -74,7 +74,7 @@ steps:
       - function_process_email_request
       - --source=.
       - --trigger-topic=topic-email-requests
-      - --runtime=node13
+      - --runtime=nodejs10
       - --entry-point=processEmailRequest
       - --verbosity=debug
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -85,7 +85,7 @@ steps:
       - function_process_web_request
       - --source=.
       - --trigger-topic=topic-web-requests
-      - --runtime=node13
+      - --runtime=nodejs10
       - --entry-point=processWebRequest
       - --verbosity=debug
 
