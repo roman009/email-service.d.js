@@ -36,15 +36,15 @@ steps:
     entrypoint: npm
     dir: 'api/'
     args: ['test']
-  - name: node:13
+  - name: node:10
     entrypoint: npm
     dir: 'backend/function_process_check_request/'
     args: ['test']
-  - name: node:13
+  - name: node:10
     entrypoint: npm
     dir: 'backend/function_process_email_request/'
     args: ['test']
-  - name: node:13
+  - name: node:10
     entrypoint: npm
     dir: 'backend/function_process_web_request/'
     args: ['test']
