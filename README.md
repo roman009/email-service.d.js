@@ -65,7 +65,7 @@ The backend consists of 3 Cloud Functions that are triggered via Pub/Sub topics:
 
 - `function_process_web_requests` - a Function that is triggered my Pub/Sub messages posted in the `topic-web-requests` topic. It creates a list of unique recipients, checks the email addresses against the list of blocked emails and then publishes `send email` messages to the `topic-email-requests` Pub/Sub topic.
 - `function_process_email_requests` - a Function that is triggered my Pub/Sub messages posted in the `topic-email-requests` topic. It calls the Sendgrid API to send one email 
-- `function_process_check_requests` - a Function that is triggered my Pub/Sub messages posted in the `topic-check-requests` topic. It checks every minute for new addresses that are added to the suppression list from Sendgrid. It downloads the new email as stores them in a Firestore collection called `blocked_emails` for future use 
+- `function_process_check_requests` - a Function that is triggered my Pub/Sub messages posted in the `topic-check-requests` topic. It checks every minute for new addresses that are added to the suppression list from Sendgrid. It downloads the suppressed email addresses as stores them in a Firestore collection called `blocked_emails` for future reference 
 - A cron that is setup during deployment that runs every minute and adds a message in the `topic-check-requests` Pub/Sub topic.
 
 ### Installing

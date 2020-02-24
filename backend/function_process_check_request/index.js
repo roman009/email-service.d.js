@@ -32,7 +32,7 @@ exports.processCheckRequest = async (pubSubEvent, context) => {
   ]
 
   for (const request of requests) {
-    sgClient.request(request).then(this.processResponse)
+    await sgClient.request(request).then(this.processResponse)
   }
 }
 
