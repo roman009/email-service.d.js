@@ -1,4 +1,4 @@
-const AUTH_TOKEN = process.env.AUTH_TOKEN || 'some-token'
+const AUTH_TOKEN = process.env.AUTH_TOKEN
 
 const auth = (req, res, next) => {
   try {

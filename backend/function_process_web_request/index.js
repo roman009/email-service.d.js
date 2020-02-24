@@ -1,5 +1,6 @@
 const Firestore = require('@google-cloud/firestore')
 const { PubSub } = require('@google-cloud/pubsub')
+require('dotenv').config()
 
 const db = new Firestore({ projectId: process.env.GOOGLE_PROJECT_ID || 'email-service-d' })
 const pubSubClient = new PubSub({ projectId: process.env.GOOGLE_PROJECT_ID || 'email-service-d' })

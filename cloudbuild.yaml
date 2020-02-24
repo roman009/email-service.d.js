@@ -6,16 +6,31 @@ steps:
     args: ['install']
   - name: node:13
     entrypoint: npm
-    dir: 'backend/function_process_check_request'
+    dir: 'backend/function_process_check_request/'
     args: ['install']
   - name: node:13
     entrypoint: npm
-    dir: 'backend/function_process_email_request'
+    dir: 'backend/function_process_email_request/'
     args: ['install']
   - name: node:13
     entrypoint: npm
-    dir: 'backend/function_process_web_request'
+    dir: 'backend/function_process_web_request/'
     args: ['install']
+
+  #download credentials
+  - name: 'gcr.io/cloud-builders/gsutil'
+    dir: 'api/'
+    args: ['cp', 'gs://email-service-d-settings/.env', '.env']
+  - name: 'gcr.io/cloud-builders/gsutil'
+    dir: 'backend/function_process_check_request/'
+    args: ['cp', 'gs://email-service-d-settings/.env', '.env']
+  - name: 'gcr.io/cloud-builders/gsutil'
+    dir: 'backend/function_process_email_request/'
+    args: ['cp', 'gs://email-service-d-settings/.env', '.env']
+  - name: 'gcr.io/cloud-builders/gsutil'
+    dir: 'backend/function_process_web_request/'
+    args: ['cp', 'gs://email-service-d-settings/.env', '.env']
+
   #tests
   - name: node:13
     entrypoint: npm
@@ -23,25 +38,25 @@ steps:
     args: ['test']
   - name: node:13
     entrypoint: npm
-    dir: 'backend/function_process_check_request'
+    dir: 'backend/function_process_check_request/'
     args: ['test']
   - name: node:13
     entrypoint: npm
-    dir: 'backend/function_process_email_request'
+    dir: 'backend/function_process_email_request/'
     args: ['test']
   - name: node:13
     entrypoint: npm
-    dir: 'backend/function_process_web_request'
+    dir: 'backend/function_process_web_request/'
     args: ['test']
+
   #deploy
   - name: 'gcr.io/cloud-builders/gcloud'
     dir: 'api/'
     args:
       - app
       - deploy
-      - --verbosity=debug
   - name: 'gcr.io/cloud-builders/gcloud'
-    dir: 'backend/function_process_check_request'
+    dir: 'backend/function_process_check_request/'
     args:
       - functions
       - deploy
@@ -52,7 +67,7 @@ steps:
       - --entry-point=processCheckRequest
       - --verbosity=debug
   - name: 'gcr.io/cloud-builders/gcloud'
-    dir: 'backend/function_process_email_request'
+    dir: 'backend/function_process_email_request/'
     args:
       - functions
       - deploy
@@ -63,7 +78,7 @@ steps:
       - --entry-point=processEmailRequest
       - --verbosity=debug
   - name: 'gcr.io/cloud-builders/gcloud'
-    dir: 'backend/function_process_web_request'
+    dir: 'backend/function_process_web_request/'
     args:
       - functions
       - deploy
@@ -73,6 +88,7 @@ steps:
       - --runtime=node13
       - --entry-point=processWebRequest
       - --verbosity=debug
+
   #cronjob
   - name: 'gcr.io/cloud-builders/gcloud'
     args:

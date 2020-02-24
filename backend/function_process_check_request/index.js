@@ -1,5 +1,6 @@
 const sgClient = require('@sendgrid/client')
 const Firestore = require('@google-cloud/firestore')
+require('dotenv').config()
 
 const db = new Firestore({ projectId: process.env.GOOGLE_PROJECT_ID || 'email-service-d' })
 sgClient.setApiKey(process.env.SENDGRID_API_KEY)

@@ -1,8 +1,12 @@
 README_local.md
 api/node_modules
+api/.env
 backend/function_process_email_request/node_modules
+backend/function_process_email_request/.env
 backend/function_process_web_request/node_modules
+backend/function_process_web_request/.env
 backend/function_process_check_request/node_modules
+backend/function_process_check_request/.env
 coding-challenge.pdf
 key.json
 .idea

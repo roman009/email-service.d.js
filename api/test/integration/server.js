@@ -3,6 +3,7 @@ const chai = require('chai')
 const expect = chai.expect
 const sinon = require('sinon')
 const chaiHttp = require('chai-http')
+require('dotenv').config()
 const server = require('../../server')
 const mailController = require('../../controller/mail_controller')
 
@@ -16,7 +17,7 @@ describe('api server', () => {
   })
 
   it('should return 422 http status for invalid requests', () => {
-    chai.request(server.app).post('/api/mail/send').set('X-TOKEN', process.env.AUTH_TOKEN || 'some-token').end((err, res) => {
+    chai.request(server.app).post('/api/mail/send').set('X-TOKEN', process.env.AUTH_TOKEN).end((err, res) => {
       expect(res.status).to.be.equal(422)
     })
   })
@@ -47,7 +48,7 @@ describe('api server', () => {
 
     chai.request(server.app)
       .post('/api/mail/send')
-      .set('X-TOKEN', process.env.AUTH_TOKEN || 'some-token')
+      .set('X-TOKEN', process.env.AUTH_TOKEN)
       .send(data)
       .end((err, res) => {
         expect(res.status).to.be.equal(200)
