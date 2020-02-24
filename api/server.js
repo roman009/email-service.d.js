@@ -13,6 +13,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use('/api/mail', mailRouter.router)
+app.use('/health', mailRouter.router)
 
 app.listen(PORT, () => { console.log(`App running on port ${PORT}`) })
 

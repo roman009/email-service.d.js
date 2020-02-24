@@ -2,7 +2,6 @@ const { describe, it } = require('mocha')
 const chai = require('chai')
 const expect = chai.expect
 const sinon = require('sinon')
-const sinonChai = require('sinon-chai')
 const chaiHttp = require('chai-http')
 const server = require('../../server')
 const mailController = require('../../controller/mail_controller')
@@ -56,5 +55,15 @@ describe('api server', () => {
       })
 
     pubSubClientStub.restore()
+  })
+})
+
+describe('health check', () => {
+  it('should return 200 http status', () => {
+    chai.request(server.app)
+      .post('/health/check')
+      .end((err, res) => {
+        expect(res.status).to.be.equal(200)
+      })
   })
 })

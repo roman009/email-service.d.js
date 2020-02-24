@@ -1,4 +1,5 @@
 steps:
+  #install
   - name: node:13
     entrypoint: npm
     dir: 'api/'
@@ -15,7 +16,7 @@ steps:
     entrypoint: npm
     dir: 'backend/function_process_web_request'
     args: ['install']
-
+  #tests
   - name: node:13
     entrypoint: npm
     dir: 'api/'
@@ -32,3 +33,37 @@ steps:
     entrypoint: npm
     dir: 'backend/function_process_web_request'
     args: ['test']
+  #deploy
+  - name: 'gcr.io/cloud-builders/gcloud'
+    dir: 'api/'
+    args: ['app', 'deploy']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    dir: 'backend/function_process_check_request'
+    args:
+      - functions
+      - deploy
+      - function_process_check_request
+      - --source=.
+      - --trigger-topic=topic-check-sendgrid-requests
+      - --runtime=node13
+      - --entry-point=processCheckRequest
+  - name: 'gcr.io/cloud-builders/gcloud'
+    dir: 'backend/function_process_email_request'
+    args:
+      - functions
+      - deploy
+      - function_process_email_request
+      - --source=.
+      - --trigger-topic=topic-email-requests
+      - --runtime=node13
+      - --entry-point=processEmailRequest
+  - name: 'gcr.io/cloud-builders/gcloud'
+    dir: 'backend/function_process_web_request'
+    args:
+      - functions
+      - deploy
+      - function_process_web_request
+      - --source=.
+      - --trigger-topic=topic-web-requests
+      - --runtime=node13
+      - --entry-point=processWebRequest
