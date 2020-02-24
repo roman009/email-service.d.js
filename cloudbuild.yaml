@@ -94,9 +94,8 @@ steps:
       - create
       - pubsub
       - post_check_msg_to_topic-check-sendgrid-requests
-      - --schedule="* * * * *"
+      - --schedule=* * * * *
       - --topic=topic-check-sendgrid-requests
-      - --message-body="no"
-      - --verbosity=debug
+      - --message-body={}
 
 timeout: "1600s"
