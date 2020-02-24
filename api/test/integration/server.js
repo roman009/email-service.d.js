@@ -61,7 +61,7 @@ describe('api server', () => {
 describe('health check', () => {
   it('should return 200 http status', () => {
     chai.request(server.app)
-      .post('/health/check')
+      .get('/health/check')
       .end((err, res) => {
         expect(res.status).to.be.equal(200)
       })
