@@ -65,7 +65,6 @@ steps:
       - --trigger-topic=topic-check-sendgrid-requests
       - --runtime=nodejs10
       - --entry-point=processCheckRequest
-      - --verbosity=debug
   - name: 'gcr.io/cloud-builders/gcloud'
     dir: 'backend/function_process_email_request/'
     args:
@@ -76,7 +75,6 @@ steps:
       - --trigger-topic=topic-email-requests
       - --runtime=nodejs10
       - --entry-point=processEmailRequest
-      - --verbosity=debug
   - name: 'gcr.io/cloud-builders/gcloud'
     dir: 'backend/function_process_web_request/'
     args:
@@ -87,7 +85,6 @@ steps:
       - --trigger-topic=topic-web-requests
       - --runtime=nodejs10
       - --entry-point=processWebRequest
-      - --verbosity=debug
 
   #cronjob
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -99,7 +96,7 @@ steps:
       - post_check_msg_to_topic-check-sendgrid-requests
       - --schedule="* * * * *"
       - --topic=topic-check-sendgrid-requests
-      - --message-body="no
+      - --message-body="no"
       - --verbosity=debug
 
 timeout: "1600s"
