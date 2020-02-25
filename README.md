@@ -93,3 +93,4 @@ Production credentials are stored in a private bucket in the Storage service in 
 - convert to Typescript
 - cleanup .env files and implement the Secret Manager product from Google Cloud
 - convert implementation to a Kubernetes cluster to abstract the cloud provider
+- extract the functions to their own repositories so that can be deployed independently and make deployment faster  
