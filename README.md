@@ -19,7 +19,7 @@ The code is Javascript running in node.js versions 13 (API) and 10 (Google Funct
 It consists of 2 major parts: the API and the backend. 
 
 ### API
-The API exposes 2 methods (`POST /mail/send`, `GET /health/check` and `GET /docs/swagger`).
+The API exposes 3 methods (`POST /mail/send`, `GET /health/check` and `GET /docs/swagger`).
 
 The request `POST /mail/send` looks like this
 
@@ -51,21 +51,21 @@ X-TOKEN: some-auth-token
 The response will be:
 
 - `200` if the authentication is successful and the payload is validated
-- `422` if the payload is invalid
 - `401` if the token is invalid
+- `422` if the payload is invalid
 
-After a successful validation of the payload, the service with post a new message in the `topic-web-requests` Pub/Sub topic.
+After authentication and a successful validation of the payload, the service will post a new message in the `topic-web-requests` Pub/Sub topic.
 
-`GET /health/check` is a health check endpoint for the service used by Google App Engine
+`GET /health/check` is a health check endpoint for the service used by Google App Engine.
 
-`GET /docs/swagger` is used to serve the Swagger API documentation
+`GET /docs/swagger` is used to serve the Swagger API documentation,
 
 ### Backend
-The backend consists of 3 Cloud Functions that are triggered via Pub/Sub topics:
+The backend consists of 3 Cloud Functions that are triggered via Pub/Sub topics and a Cron:
 
-- `function_process_web_requests` - a Function that is triggered my Pub/Sub messages posted in the `topic-web-requests` topic. It creates a list of unique recipients, checks the email addresses against the list of blocked emails and then publishes `send email` messages to the `topic-email-requests` Pub/Sub topic.
-- `function_process_email_requests` - a Function that is triggered my Pub/Sub messages posted in the `topic-email-requests` topic. It calls the Sendgrid API to send one email 
-- `function_process_check_requests` - a Function that is triggered my Pub/Sub messages posted in the `topic-check-requests` topic. It checks every minute for new addresses that are added to the suppression list from Sendgrid. It downloads the suppressed email addresses as stores them in a Firestore collection called `blocked_emails` for future reference 
+- `function_process_web_requests` - a Function that is triggered by Pub/Sub messages posted in the `topic-web-requests` topic coming from the API. It creates a list of unique recipients, checks the email addresses against the list of blocked emails and then publishes `send email` messages to the `topic-email-requests` Pub/Sub topic.
+- `function_process_email_requests` - a Function that is triggered by Pub/Sub messages posted in the `topic-email-requests` topic posted by `function_process_web_requests`. It calls the Sendgrid API to send one email.
+- `function_process_check_requests` - a Function that is triggered by Pub/Sub messages posted in the `topic-check-requests` topic posted by the cron job `post_check_msg_to_topic-check-sendgrid-requests` define in `cloudbuild.yaml`. It checks every minute for new addresses that are added to the suppression list from Sendgrid. It downloads the suppressed email addresses as stores them in a Firestore collection called `blocked_emails` for future reference. 
 - A cron that is setup during deployment that runs every minute and adds a message in the `topic-check-requests` Pub/Sub topic.
 
 ### Installing
@@ -76,7 +76,7 @@ In order to install the dependencies, from the root dir you can run the followin
 
 ## Running the tests
 
-All the tests for backend and the API can be ran locally using the following command
+All the tests for backend and the API can be ran locally using the following command:
 
 - `./test_local.sh`
 
@@ -84,7 +84,7 @@ The tests include unit, functional and integration tests for the projects. Not a
 
 ## Deployment
 
-The deployment pipeline is triggered after a push to `master` in the github project. Google Cloud Build is triggered via a Webhook and runs the pipeline defined in `cloudbuild.yaml` (install, test, deploy).
+The deployment pipeline is triggered after a push to `master` in the github project. Google Cloud Build is triggered via a Webhook from Github and runs the pipeline defined in `cloudbuild.yaml` (install, test, deploy).
 
 Production credentials are stored in a private bucket in the Storage service in an `.env` file. After the `install` phase of the deployment, the `.env` file is copied from the bucket locally, to the mini-projects directories.  
 

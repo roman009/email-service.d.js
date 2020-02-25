@@ -9,19 +9,33 @@ tags:
 schemes:
   - "https"
 paths:
+  /health/check:
+    get:
+      summary: "Health check endpoint"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "successful operation"
   /mail/send:
     post:
       tags:
         - "mail"
       summary: "Send an email"
       description: ""
-      operationId: "placeOrder"
+      operationId: "sendMail"
       produces:
         - "application/json"
       parameters:
+        - in: header
+          name: X-AUTH
+          schema:
+            type: string
+          required: true
+          description: "Authentication header"
         - in: "body"
           name: "body"
-          description: ""
+          description: "Schedules an email to be sent"
           required: true
           schema:
             $ref: "#/definitions/Mail"
@@ -31,9 +45,9 @@ paths:
           schema:
             $ref: "#/definitions/MailResponse"
         401:
-          description: "Invalid Auth"
+          description: "Invalid auth"
         422:
-          description: "Invalid Mail"
+          description: "Invalid payload"
 securityDefinitions:
   api_key:
     type: "apiKey"

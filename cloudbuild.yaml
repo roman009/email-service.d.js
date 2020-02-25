@@ -91,6 +91,12 @@ steps:
     args:
       - scheduler
       - jobs
+      - delete
+      - post_check_msg_to_topic-check-sendgrid-requests
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - scheduler
+      - jobs
       - create
       - pubsub
       - post_check_msg_to_topic-check-sendgrid-requests
