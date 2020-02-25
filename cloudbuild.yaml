@@ -93,6 +93,7 @@ steps:
       - jobs
       - delete
       - post_check_msg_to_topic-check-sendgrid-requests
+      - --quiet
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       - scheduler
