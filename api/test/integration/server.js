@@ -13,6 +13,7 @@ describe('api server', () => {
   it('should return 401 http status for code unauthenticated requests', () => {
     chai.request(server.app).post('/api/mail/send').end((err, res) => {
       expect(res.status).to.be.equal(401)
+      expect(res.body).to.be.eql({ error: 'Error: Unable to authenticate'} )
     })
   })
 

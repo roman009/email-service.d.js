@@ -21,5 +21,5 @@ exports.processEmailRequest = async (pubSubEvent, context) => {
     bcc: emailRequest.bcc
   }
 
-  sgMail.send(email).then(() => { console.log('Email sent!') }, () => console.log('Email not sent!'))
+  await sgMail.send(email).then(() => { console.log('Email sent!') }, () => console.log('Email not sent!'))
 }

@@ -6,10 +6,10 @@ const auth = (req, res, next) => {
     if (token === undefined || token !== AUTH_TOKEN) {
       throw new Error('Unable to authenticate')
     }
-    next()
+    return next()
   } catch (e) {
-    res.status(401).json({
-      error: e
+    return res.status(401).json({
+      error: e.toString()
     })
   }
 }
