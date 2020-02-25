@@ -3,7 +3,7 @@ info:
   description: "Schedules emails to be sent via Sendgrid and keeps track of blocked/spam/bounced emails"
   version: "1.0.0"
   title: "email-service.d"
-basePath: "/api"
+basePath: "/"
 tags:
   - name: "mail"
 schemes:
@@ -17,7 +17,7 @@ paths:
       responses:
         200:
           description: "successful operation"
-  /mail/send:
+  /api/mail/send:
     post:
       tags:
         - "mail"
@@ -85,6 +85,3 @@ definitions:
         type: object
         items:
           $ref: '#/definitions/Mail'
-externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
