@@ -27,8 +27,17 @@ exports.processWebRequest = async (pubSubEvent, context) => {
   }
 
   const toRecipientEmails = await this.blockedEmails(this.uniqueEmails(webRequest.to))
-  finalWebRequest.cc = await this.blockedEmails(this.uniqueEmails(webRequest.cc))
-  finalWebRequest.bcc = await this.blockedEmails(this.uniqueEmails(webRequest.bcc))
+  if (webRequest.cc === undefined) {
+    webRequest.cc = []
+  } else {
+    finalWebRequest.cc = await this.blockedEmails(this.uniqueEmails(webRequest.cc))
+  }
+
+  if (webRequest.bcc === undefined) {
+    finalWebRequest.bcc = []
+  } else {
+    finalWebRequest.bcc = await this.blockedEmails(this.uniqueEmails(webRequest.bcc))
+  }
 
   for (const toRecipientEmail of toRecipientEmails) {
     finalWebRequest.to = [toRecipientEmail]
